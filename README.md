@@ -77,8 +77,7 @@ Changelog:
 31-10-2023:  
 
 - Updated registry tweaks and file/folder removal to be like this project, and added some tweaks from there: (<https://github.com/ianis58/tiny11builder/tree/main/tools>)  
-- I removed the RunAsTI snippet and the failed attempt at the Teams registry tweak.  
-- Removed unnecessary reg loads/unloads  
+- Removed the RunAsTI snippet and the failed attempt at the Teams registry tweak.   
 - Replaced autoattend.xml with the one from (<https://github.com/bravomail/tinier11/blob/main/autounattend.xml>), thanks bravomail!
 - WebExperience is no longer removed
 
