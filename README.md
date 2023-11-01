@@ -65,8 +65,7 @@ Media Player Legacy,
 Tablet PC Math,  
 Wallpapers,  
 Edge,  
-OneDrive,  
-WebExperience  
+OneDrive 
 
 Known issues:
 
