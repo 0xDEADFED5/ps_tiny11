@@ -1,6 +1,5 @@
 ﻿# this script is based on https://github.com/ntdevlabs/tiny11builder
 # and i never would've created this without prior work by ntdevlabs
-using namespace System.Text.RegularExpressions
 if (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
     Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-File `"$($PSCommandPath)`""
     Exit

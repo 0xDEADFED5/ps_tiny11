@@ -70,6 +70,7 @@ OneDrive
 Known issues:
 
 I'm not 100% sure, I've tested a few installations in VM to confirm registry changes, but I haven't tested further.  I'll be testing on hardware later this week.  
+
 I have code in there that should convert install.esd to install.wim, but it doesn't seem to do shit, so it's commented out.  Don't use ESD compression if you want to use this script.  
 
 Changelog:
