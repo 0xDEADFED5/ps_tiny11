@@ -11,13 +11,12 @@
 			<SystemUsesLightTheme>false</SystemUsesLightTheme>
 		</Themes>
 		<FirstLogonCommands>
-		<SynchronousCommand wcm:action="add">
-			<CommandLine>%SystemRoot%\System32\reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve</CommandLine>
-			<Description>Disable "Show more options" in context menu</Description>
-			<Order>1</Order>
-		</SynchronousCommand>
-</FirstLogonCommands>
-
+			<SynchronousCommand wcm:action="add">
+				<CommandLine>%SystemRoot%\System32\reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve</CommandLine>
+				<Description>Disable "Show more options" in context menu</Description>
+				<Order>1</Order>
+			</SynchronousCommand>
+		</FirstLogonCommands>
 		</component>
 	</settings>
 	<settings pass="windowsPE">
