@@ -87,10 +87,11 @@ Dark mode
 
 #### Group Policy tweaks([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures)):
 
-#### Changes to default security options are ***emphasized***
+#### Changes to default security options are ***emphasized***, Windows Defender real-time protection etc. is still on by default
 
 ***Disable Windows Defender SmartScreen***,  
 ***Disable Windows Defender cloud protection***,  
+***Turn off routine remediation (ask user what to do when malware is found)***,  
 Turn off cloud consumer account state content,  
 Turn off Automatic Download and Update of Map Data,  
 Turn off cloud consumer account state content,  
@@ -102,7 +103,6 @@ Limit Diagnostic Log Collection,
 Limit Dump Collection,  
 Turn off desktop gadgets,  
 Turn off collection of InPrivate Filtering data,  
-Turn off routine remediation (ask user what to do when malware is found),  
 Disallow Microsoft Edge to pre-launch at Windows startup, when the system is idle, and each time Microsoft Edge is closed,  
 Disallow Microsoft Edge to start and load the Start and New Tab page at Windows startup and each time Microsoft Edge is closed,  
 Disable news and interests on the taskbar,  
