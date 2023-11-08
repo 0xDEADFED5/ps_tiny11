@@ -24,9 +24,9 @@ Also included is an unattended answer file, which is used to bypass the MS accou
 
 I've tried to improve privacy a fair bit, but it only scratches the surface.  I recommend using [O&O ShutUp10++](https://www.oo-software.com/en/shutup10) to do a better job.
 
-Tested on Windows 11 version 22H2 (22621.2428) amd64, and (22621.1702).  Other builds should mostly work.
+Tested on Windows 11 version 22H2 (22621.2428) amd64 and (22621.1702).  Other builds should mostly work.
 
-#### Instructions to modify ISO:
+#### Instructions to build ISO:
 
 1. Download Windows 11 from [UUPDump](https://uupdump.net/) (don't use ESD compression) or from the Microsoft website (<https://www.microsoft.com/software-download/windows11>).
 2. Mount the downloaded ISO image using Windows Explorer (double-click it)
