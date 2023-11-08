@@ -89,8 +89,7 @@ Disable Windows Platform Binary Table (untested)([source](https://www.powershell
 Dark mode  
 
 #### Group Policy tweaks([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures)):
-
-Turn off Automatic Download and Update of Map Data,  
+ 
 Turn off cloud consumer account state content,  
 Turn off Automatic Download and Update of Map Data,  
 Turn off cloud consumer account state content,  
