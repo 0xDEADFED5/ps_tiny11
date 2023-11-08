@@ -4,27 +4,28 @@ A PowerShell version of [tiny11builder](https://github.com/ntdevlabs/tiny11build
 
 This is literally the first PowerShell script I've ever written.
 
-Changes from tiny11builder:
+This is a script to automate the build of a streamlined Windows 11 image ***or modify currently running Windows 11***.
+
+#### Changes from tiny11builder:
 
 - Items to remove are searched for by substring.  
 If an item name is adjusted slightly in a new build this script should hopefully still find it.  For instance, instead of "Microsoft-Windows-InternetExplorer-Optional-Package\~31bf3856ad364e35\~amd64\~\~11.0.22621.1702", this script searches for "InternetExplorer" in the setup image and gets the full package name from there.
 - ps_tiny11 will tell you about items it doesn't find on the setup image
-- Explorer ads, lockscreen ads, and Windows tips are disabled.  Info source: (<https://winaero.com/how-to-disable-ads-in-windows-11/>)
-- Additional tweaks that I found here: (<https://github.com/ianis58/tiny11builder/tree/main/tools>)
 - ps_tiny11 will search drives for a Windows setup image and prompt for confirmation
 - If there's only one ImageIndex in the install.wim, it will automatically be selected
 - Various sanity checks
-- I discovered (<https://github.com/ianis58/tiny11builder>) after I wrote my version, and liked their registry technique (I almost did it that way too when I added some), so I updated mine
-
-This is a script to automate the build of a streamlined Windows 11 image.
+- Many additional tweaks
+- Modify hosts file to block telemetry servers
 
 Like tiny11builder, oscdimg.exe is included for creating the ISO.
 
 Also included is an unattended answer file, which is used to bypass the MS account on OOBE and to deploy the image with the /compact flag.
 
+I've tried to improve privacy a fair bit, but it only scratches the surface.  I recommend using [O&O ShutUp10++](https://www.oo-software.com/en/shutup10) to do a better job.
+
 Tested on Windows 11, version 22H2 (22621.2428) amd64, and (22621.1702).  Other builds should mostly work.
 
-Instructions:
+#### Instructions to modify ISO:
 
 1. Download Windows 11 from [UUPDump](https://uupdump.net/) (don't use ESD compression) or from the Microsoft website (<https://www.microsoft.com/software-download/windows11>).
 2. Mount the downloaded ISO image using Windows Explorer (double-click it)
@@ -34,9 +35,12 @@ Instructions:
 6. Chill for a bit, yah?
 7. After it's done, if shit didn't break, you will have ps_tiny11.iso
 
-What is removed:
+#### Instructions to modify currently running Windows 11:
 
-Windows 11 hardware requirements,  
+1. Right-click ps_tiny11.ps1 and select 'Run with PowerShell'.  It will ask for Admin privileges.  Explorer will be restarted to apply changes.
+
+#### What is removed:
+
 Clipchamp,  
 News,  
 Weather,  
@@ -67,13 +71,65 @@ Wallpapers,
 Edge,  
 OneDrive 
 
-Known issues:
+#### Tweaks applied:
 
-I'm not 100% sure, I've tested a few installations in VM to confirm registry changes, but I haven't tested further.  I'll be testing on hardware later this week.  
+Remove Windows 11 hardware requirements,  
+Disable Teams,  
+Disable Sponsored apps,  
+Enable local accounts,  
+Disable reserved storage,  
+Disable chat icon,  
+Disable new right click context menu,  
+Disable Search icon in taskbar,  
+Disable Windows tips,  
+Disable Explorer ads,  
+Disable lockscreen ads,  
+Disable Windows Platform Binary Table (untested)([source](https://github.com/Jamesits/dropWPBT)),  
+Dark mode  
+
+#### Group Policy tweaks([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures)):
+
+Turn off Automatic Download and Update of Map Data,  
+Turn off cloud consumer account state content,  
+Turn off Automatic Download and Update of Map Data,  
+Turn off cloud consumer account state content,  
+Turn off cloud optimized content,  
+Turn off Microsoft consumer experiences,  
+Lowest telemetry setting,  
+Do not allow sending intranet or internet history,  
+Limit Diagnostic Log Collection,  
+Limit Dump Collection,  
+Turn off desktop gadgets,  
+Disable Windows Defender SmartScreen,  
+Turn off collection of InPrivate Filtering data,  
+Turn off routine remediation (ask user what to do when malware is found),  
+Turn off Windows Defender cloud protection,  
+Disallow Microsoft Edge to pre-launch at Windows startup, when the system is idle, and each time Microsoft Edge is closed,  
+Disallow Microsoft Edge to start and load the Start and New Tab page at Windows startup and each time Microsoft Edge is closed,  
+Disable news and interests on the taskbar,  
+Disable Cloud Search,  
+Disable Cortana,  
+Don't search the web or display web results in Search,  
+Disable Cortana above lock screen,  
+No auto-restart with logged on users for scheduled automatic updates installations,  
+Disable widgets,  
+Disable "Improve inking and typing recognition" AKA text input data collection,  
+Don't launch privacy settings experience on user logon,  
+Disable Windows Error Reporting  
+
+#### How to Modify:
+
+Top of ps_tiny11.ps1 contains apps, packages, files and folders to remove, and hostnames to be blocked.  Comment out lines that you want to skip with '#'.  
+
+installwim_patches.reg contains the tweaks, comment out unwanted ones by adding ';' in front of them.
+
+#### Known issues:
+
+I'm not 100% sure, still testing.  
 
 I have code in there that should convert install.esd to install.wim, but it doesn't seem to do shit, so it's commented out.  Don't use ESD compression if you want to use this script.  
 
-Changelog:
+#### Changelog:
 
 31-10-2023:  
 
@@ -82,3 +138,9 @@ Changelog:
 - Replaced autoattend.xml with the one from (<https://github.com/bravomail/tinier11/blob/main/autounattend.xml>), thanks bravomail!
 - WebExperience is no longer removed
 
+07-11-2023:
+
+- Reorganize code a bit, can now modify currently running Windows
+- Group Policy tweaks added (source: (<https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures>))
+- autounattend.xml now modifies registry to enable old context menu (do i need to add other tweaks there?)
+- Modify hosts file to block telemetry servers (source: (<https://learn.microsoft.com/en-us/windows/privacy/manage-windows-11-endpoints>))

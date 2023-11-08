@@ -66,6 +66,64 @@ $folders = @(
 $files = @(
     "\Windows\System32\OneDriveSetup.exe"
     )
+# from https://learn.microsoft.com/en-us/windows/privacy/manage-windows-11-endpoints
+$hostnames = @(
+    # Cortana and Live Tiles
+    "business.bing.com",
+    "c.bing.com",
+    "th.bing.com",
+    "c-ring.msedge.net",
+    "fp.msedge.net",
+    "I-ring.msedge.net",
+    "s-ring.msedge.net",
+    "dual-s-ring.msedge.net",
+    "creativecdn.com",
+    "edgeassetservice.azureedge.net",
+    "r.bing.com",
+    "a-ring-fallback.msedge.net",
+    "fp-afd-nocache-ccp.azureedge.net",
+    "prod-azurecdn-akamai-iris.azureedge.net",
+    "widgetcdn.azureedge.net",
+    "widgetservice.azurefd.net",
+    # device metadata, is that important???
+    "dmd.metaservices.microsoft.com",
+    # Diagnostic Data
+    "functional.events.data.microsoft.com",
+    "browser.events.data.msn.com",
+    "self.events.data.microsoft.com",
+    "v10.events.data.microsoft.com",
+    # Windows Error Reporting
+    "telecommand.telemetry.microsoft.com",
+    "www.telecommandsvc.microsoft.com",
+    # Windows Defender SmartScreen
+    "checkappexec.microsoft.com",
+    "ping-edge.smartscreen.microsoft.com",
+    "data-edge.smartscreen.microsoft.com",
+    "nav-edge.smartscreen.microsoft.com",
+    # Microsoft Edge
+    "edge.microsoft.com",
+    "windows.msn.com",
+    "iecvlist.microsoft.com",
+    "msedge.api.cdp.microsoft.com",
+    # Microsoft Store analytics
+    "manage.devcenter.microsoft.com",
+    # Microsoft Teams
+    "config.teams.microsoft.com",
+    "teams.live.com",
+    "teams.events.data.microsoft.com",
+    "statics.teams.cdn.live.net",
+    # Windows Spotlight
+    "arc.msn.com",
+    "ris.api.iris.microsoft.com",
+    "api.msn.com",
+    #"assets.msn.com",
+    "c.msn.com",
+    "ntp.msn.com",
+    "srtb.msn.com",
+    #"www.msn.com",
+    "fd.api.iris.microsoft.com",
+    "staticview.msn.com"
+    )
 $yes = (cmd /c "choice <nul 2>nul")[1]
 $tempdir = 'C:\ps_tiny11'
 $mntdir = 'C:\tiny11mnt'
@@ -140,7 +198,7 @@ function CrapRemoval {
 # shamelessly ripped from https://github.com/ianis58/tiny11builder/tree/main
 function InstallRegistryShit {
     Write-Host 'Loading install registry ...'
-    reg load HKLM\installwim_DEFAULT "${mntdir}\Windows\System32\config\default" | Out-Null
+    reg load HKLM\installwim_DEFAULT "${mntdir}\Windows\System32\config\DEFAULT" | Out-Null
     reg load HKLM\installwim_NTUSER "${mntdir}\Users\Default\ntuser.dat" | Out-Null
     reg load HKLM\installwim_SOFTWARE "${mntdir}\Windows\System32\config\SOFTWARE" | Out-Null
     reg load HKLM\installwim_SYSTEM "${mntdir}\Windows\System32\config\SYSTEM" | Out-Null
@@ -165,15 +223,100 @@ function BootRegistryShit {
 	reg unload HKLM\bootwim_NTUSER | Out-Null
 	reg unload HKLM\bootwim_SYSTEM | Out-Null
 }
-Dismount
-Cleanup
-if (Test-Path $output) {
-    $choice = Read-Host "${output} already exists, delete it and continue? (Y/n)"
-    if ($choice -eq 'n') {
-        DoExit
+function RemoveApps([bool]$online) {
+    if ($online) {
+        $app_info = Get-AppxProvisionedPackage -Online -LogLevel 1
     }
-    Remove-Item -Path $output -Force
-    AbortOnError # file is in use
+    else {
+        $app_info = Get-AppxProvisionedPackage -Path $mntdir -LogLevel 1
+    }
+    foreach ($x in $app_info) {
+        foreach ($k in $apps.Keys.Clone()) {
+            if ($x.DisplayName.ToLower().Contains($k.ToLower())) {
+                $pkg = $x.PackageName
+                # count how many times we find each entry
+                $apps[$k] += 1
+                Write-Host "Removing app: ${pkg} ..."
+                if ($online) {
+                    Remove-AppxProvisionedPackage -PackageName $pkg -Online -LogLevel 1 | Out-Null
+                }
+                else {
+                    Remove-AppxProvisionedPackage -Path $mntdir -PackageName $pkg -LogLevel 1 | Out-Null
+                }
+                CheckAbort
+            }
+        }
+    }
+    foreach ($kv in $apps.GetEnumerator()) {
+        if ($kv.Value -eq 0) {
+            $key = $kv.Key
+            Write-Host "No matching application found for this search pattern: ${key}" -ForegroundColor yellow
+        }
+    }
+}
+function RemovePkgs([bool]$online) {
+    if ($online) {
+        $pkg_info = Get-WindowsPackage -Online -LogLevel 1
+    }
+    else {
+        $pkg_info = Get-WindowsPackage -Path $mntdir -LogLevel 1
+    }
+    foreach ($x in $pkg_info) {
+        foreach ($k in $pkgs.Keys.Clone()) {
+            if ($x.PackageName.ToLower().Contains($k.ToLower())) {
+                $pkg = $x.PackageName
+                $pkgs[$k] += 1
+                Write-Host "Removing Windows package: ${pkg}"
+                if ($online) {
+                    Remove-WindowsPackage -PackageName $pkg -Online -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
+                }
+                else {
+                    Remove-WindowsPackage -Path $mntdir -PackageName $pkg -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
+                }
+            }
+        }
+    }
+    $Error.Clear()
+    foreach ($kv in $pkgs.GetEnumerator()) {
+        if ($kv.Value -eq 0) {
+            $key = $kv.Key
+            Write-Host "No matching package found for this search pattern: ${key}" -ForegroundColor yellow
+        }
+    }
+}
+function ModifyHostsFile([string]$path) {
+    Write-Host "Patching hosts file at: ${path} ..."
+    $hosts = Get-Content -Path $path -Raw
+    foreach ($h in $hostnames) {
+        if (!$hosts.Contains($h)) {
+            $hosts += "127.0.0.1 ${h}`r`n"
+        }
+    }
+    Out-File -FilePath $path -InputObject $hosts -Encoding utf8
+}
+function OnlineTweaks {
+    Write-Host 'Generating online tweaks ...'
+    $tweaks = Get-Content -Path $install_reg -Raw
+    $tweaks = $tweaks.Replace('HKEY_LOCAL_MACHINE\installwim_DEFAULT','HKEY_USERS\.DEFAULT')
+    $tweaks = $tweaks.Replace('HKEY_LOCAL_MACHINE\installwim_NTUSER','HKEY_CURRENT_USER')
+    $tweaks = $tweaks.Replace('HKEY_LOCAL_MACHINE\installwim_SYSTEM','HKEY_LOCAL_MACHINE\System')
+    $tweaks = $tweaks.Replace('HKEY_LOCAL_MACHINE\installwim_SOFTWARE','HKEY_LOCAL_MACHINE\Software')
+    $temp = Join-Path $PSScriptRoot 'tweaks.reg'
+    Out-File -FilePath $temp -InputObject $tweaks -Encoding utf8
+    Write-Host 'Modifying registry ...'
+    regedit /s $temp | Out-Null
+    Remove-Item $temp -Force -ErrorAction SilentlyContinue | Out-Null
+}
+function Online {
+    OnlineTweaks
+    ModifyHostsFile('C:\Windows\System32\drivers\etc\hosts')
+    Clear-DnsClientCache
+    Write-Host 'Restarting Explorer ...'
+    Stop-Process -Name "explorer"
+    start explorer
+    RemoveApps($true)
+    RemovePkgs($true)
+    DoExit
 }
 $drives = Get-Volume | Select-Object -Property DriveLetter -ExpandProperty DriveLetter
 $drive = $null
@@ -196,8 +339,23 @@ foreach ($d in $drives) {
     #}
 }
 if ($null -eq $drive) {
-    Write-Host 'Windows setup not found, please mount the ISO and try again...' -ForegroundColor red
-    DoExit
+    $choice = Read-Host 'Windows setup not found, modify running Windows installation? (y/N)'
+    if ($choice -eq 'y') {
+        Online
+    }
+    else {
+        DoExit
+    }
+}
+Dismount
+Cleanup
+if (Test-Path $output) {
+    $choice = Read-Host "${output} already exists, delete it and continue? (Y/n)"
+    if ($choice -eq 'n') {
+        DoExit
+    }
+    Remove-Item -Path $output -Force
+    AbortOnError # file is in use
 }
 Write-Host "Copying installation media to ${tempdir}..."
 New-Item -Path $tempdir -ItemType Directory -Force | Out-Null
@@ -228,48 +386,12 @@ else {
 Write-Host 'Mounting image...'
 New-Item -Path $mntdir -ItemType Directory -Force | Out-Null
 Mount-WindowsImage -Path $mntdir -ImagePath "${tempdir}\sources\install.wim" -Index $index -LogLevel 1 | Out-Null
-$app_info = Get-AppxProvisionedPackage -Path $mntdir -LogLevel 1
-foreach ($x in $app_info) {
-    foreach ($k in $apps.Keys.Clone()) {
-        if ($x.DisplayName.ToLower().Contains($k.ToLower())) {
-            $pkg = $x.PackageName
-            # count how many times we find each entry
-            $apps[$k] += 1
-            Write-Host "Removing app: ${pkg} ..."
-            Remove-AppxProvisionedPackage -Path $mntdir -PackageName $pkg -LogLevel 1 | Out-Null
-            CheckAbort
-        }
-    }
-}
-foreach ($kv in $apps.GetEnumerator()) {
-    if ($kv.Value -eq 0) {
-        $key = $kv.Key
-        Write-Host "No matching application found for this search pattern: ${key}" -ForegroundColor yellow
-    }
-}
-$pkg_info = Get-WindowsPackage -Path $mntdir -LogLevel 1
-Write-Host 'Removing packages, a few errors in this section is normal ...'
-foreach ($x in $pkg_info) {
-    foreach ($k in $pkgs.Keys.Clone()) {
-        if ($x.PackageName.ToLower().Contains($k.ToLower())) {
-            $pkg = $x.PackageName
-            $pkgs[$k] += 1
-            Write-Host "Removing Windows package: ${pkg}"
-            Remove-WindowsPackage -Path $mntdir -PackageName $pkg -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
-        }
-    }
-}
-$Error.Clear()
-foreach ($kv in $pkgs.GetEnumerator()) {
-    if ($kv.Value -eq 0) {
-        $key = $kv.Key
-        Write-Host "No matching package found for this search pattern: ${key}" -ForegroundColor yellow
-    }
-}
+RemoveApps($false)
+RemovePkgs($false)
 CrapRemoval
-Copy-Item $unattend "${mntdir}\Windows\System32\Sysprep\autounattend.xml"
 InstallRegistryShit
 CheckAbort
+ModifyHostsFile("${mntdir}\Windows\System32\drivers\etc\hosts")
 Write-Host 'Dismounting image ...'
 Dismount-WindowsImage -Path $mntdir -Save -CheckIntegrity -LogLevel 1 | Out-Null
 Write-Host 'Exporting image ...'
