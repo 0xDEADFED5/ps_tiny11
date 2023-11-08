@@ -90,10 +90,10 @@ Dark mode
 
 #### Group Policy tweaks([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures)):
 
-#### Changes to default security options are **bold**
+#### Changes to default security options are ***emphasized***
 
-**Disable Windows Defender SmartScreen**,  
-**Disable Windows Defender cloud protection**,  
+***Disable Windows Defender SmartScreen***,  
+***Disable Windows Defender cloud protection***,  
 Turn off cloud consumer account state content,  
 Turn off Automatic Download and Update of Map Data,  
 Turn off cloud consumer account state content,  
