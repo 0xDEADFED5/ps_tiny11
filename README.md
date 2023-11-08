@@ -85,7 +85,7 @@ Disable Search icon in taskbar,
 Disable Windows tips,  
 Disable Explorer ads,  
 Disable lockscreen ads,  
-Disable Windows Platform Binary Table (untested)([source](https://github.com/Jamesits/dropWPBT)),  
+Disable Windows Platform Binary Table (untested)([source](https://www.powershellgallery.com/packages/Disable-WpbtExecution/1.0.5)),  
 Dark mode  
 
 #### Group Policy tweaks([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures)):
