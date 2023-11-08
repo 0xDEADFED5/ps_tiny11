@@ -12,6 +12,7 @@ This is a script to automate the build of a streamlined Windows 11 image ***or m
 If an item name is adjusted slightly in a new build this script should hopefully still find it.  For instance, instead of "Microsoft-Windows-InternetExplorer-Optional-Package\~31bf3856ad364e35\~amd64\~\~11.0.22621.1702", this script searches for "InternetExplorer" in the setup image and gets the full package name from there.
 - ps_tiny11 will tell you about items it doesn't find on the setup image
 - ps_tiny11 will search drives for a Windows setup image and prompt for confirmation
+- If no Windows installer found, prompt to apply changes to running Windows
 - If there's only one ImageIndex in the install.wim, it will automatically be selected
 - Various sanity checks
 - Many additional tweaks
@@ -19,11 +20,11 @@ If an item name is adjusted slightly in a new build this script should hopefully
 
 Like tiny11builder, oscdimg.exe is included for creating the ISO.
 
-Also included is an unattended answer file, which is used to bypass the MS account on OOBE and to deploy the image with the /compact flag.
+Also included is an unattended answer file, which is used to bypass the MS account on OOBE, and apply HKCU registry tweaks.
 
 I've tried to improve privacy a fair bit, but it only scratches the surface.  I recommend using [O&O ShutUp10++](https://www.oo-software.com/en/shutup10) to do a better job.
 
-Tested on Windows 11, version 22H2 (22621.2428) amd64, and (22621.1702).  Other builds should mostly work.
+Tested on Windows 11 version 22H2 (22621.2428) amd64, and (22621.1702).  Other builds should mostly work.
 
 #### Instructions to modify ISO:
 
@@ -141,6 +142,6 @@ I have code in there that should convert install.esd to install.wim, but it does
 07-11-2023:
 
 - Reorganize code a bit, can now modify currently running Windows
-- Group Policy tweaks added (source: (<https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures>))
+- Group Policy tweaks added (source: <https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures>)
 - autounattend.xml now modifies registry to enable old context menu (do i need to add other tweaks there?)
-- Modify hosts file to block telemetry servers (source: (<https://learn.microsoft.com/en-us/windows/privacy/manage-windows-11-endpoints>))
+- Modify hosts file to block telemetry servers (source: <https://learn.microsoft.com/en-us/windows/privacy/manage-windows-11-endpoints>)
