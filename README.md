@@ -7,19 +7,19 @@ This is a script to automate the build of a streamlined Windows 11 image ***or m
 #### Changes from tiny11builder:
 
 - Items to remove are searched for by case-insensitive substring.  If an item name is adjusted slightly in a new build this script should hopefully still find it.  For instance, instead of "Microsoft-Windows-InternetExplorer-Optional-Package\~31bf3856ad364e35\~amd64\~\~11.0.22621.1702", this script searches for "InternetExplorer" in the setup image and gets the full package name from there.
-- ps_tiny11 will tell you about items it doesn't find in the setup image
+- ps_tiny11 will tell you about packages/apps it doesn't find
 - ps_tiny11 will search drives for a Windows setup image and prompt for confirmation
-- If no Windows installer found, prompt to modify running Windows
 - If there's only one ImageIndex in the install.wim, it will automatically be selected
-- Various sanity checks
+- If no Windows installer found, prompt to modify running Windows
+- Various sanity checks and fixes
 - Many additional tweaks
 - Modify hosts file to block telemetry servers
 
-Like tiny11builder, oscdimg.exe is included for creating the ISO.
-
-Also included is an unattended answer file, which is used to bypass the MS account on OOBE and apply HKCU registry tweaks.
-
-I've tried to improve privacy a fair bit, but it only scratches the surface.  I recommend using [O&O ShutUp10++](https://www.oo-software.com/en/shutup10) to do a better job.
+Like tiny11builder, oscdimg.exe is included for creating the ISO.  
+Also included is an unattended answer file, which is used to bypass the MS account on OOBE and apply HKCU registry tweaks.  
+I've tried to improve privacy a fair bit, but it only scratches the surface.  
+I recommend using [O&O ShutUp10++](https://www.oo-software.com/en/shutup10) to do a better job.  
+Protip:  Use Microsoft Store to install Firefox after you install Windows.  
 
 Tested on Windows 11 version 22H2 (22621.2428) amd64 and (22621.1702).  Other builds should mostly work.
 
@@ -164,9 +164,9 @@ staticview.msn.com
 
 #### How to Modify:
 
-Top of ps_tiny11.ps1 contains apps, packages, files and folders to remove, and hostnames to be blocked.  Comment out lines that you want to skip with '#'.  
+Top of [ps_tiny11.ps1](ps_tiny11.ps1) contains apps, packages, files and folders to remove, and hostnames to be blocked.  Comment out lines that you want to skip with '#'.  
 
-installwim_patches.reg contains the tweaks, comment out unwanted ones by adding ';' in front of them, they're labeled.
+[installwim_patches.reg](installwim_patches.reg) contains the tweaks, comment out unwanted ones by adding ';' in front of them, they're labeled.
 
 #### Known issues:
 
