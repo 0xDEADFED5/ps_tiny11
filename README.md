@@ -170,7 +170,7 @@ Top of [ps_tiny11.ps1](ps_tiny11.ps1) contains apps, packages, files and folders
 
 #### Known issues:
 
-I'm not 100% sure, still testing.  I've tested offline/online on hardware and many times in VM, nothing seems to be broken.  Disabling Windows Platform Binary Table may or may not work.
+I'm not 100% sure, still testing.  I've tested offline/online on hardware and many times in VM, nothing seems to be broken.  Disabling Windows Platform Binary Table may or may not work.  When using Xbox controller a window will pop up on game start pointing you to Microsoft Store to install Xbox crap.  
 
 I have code in there that should convert install.esd to install.wim, but it doesn't seem to do shit, so it's commented out.  Don't use ESD compression if you want to use this script.  
 
