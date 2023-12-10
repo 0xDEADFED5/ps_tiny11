@@ -4,6 +4,9 @@ A PowerShell version of [tiny11builder](https://github.com/ntdevlabs/tiny11build
 
 This is a script to automate the build of a streamlined Windows 11 image ***or modify currently running Windows 11***.  Many privacy related and other tweaks are applied as well, please read this entire document before use.
 
+Note on usage:  to right-click and 'run with PowerShell', you must enable PowerShell scripts to run without signing in Windows developer settings.  Not ideal.
+The other way: open a terminal and run .\ps_tiny11.ps1
+
 #### Changes from tiny11builder:
 
 - Items to remove are searched for by case-insensitive substring.  If an item name is adjusted slightly in a new build this script should hopefully still find it.  For instance, instead of "Microsoft-Windows-InternetExplorer-Optional-Package\~31bf3856ad364e35\~amd64\~\~11.0.22621.1702", this script searches for "InternetExplorer" in the setup image and gets the full package name from there.
@@ -189,3 +192,8 @@ I have code in there that should convert install.esd to install.wim, but it does
 - Group Policy tweaks added ([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures))
 - autounattend.xml now modifies registry to enable old context menu (do i need to add other tweaks there?)
 - Modify hosts file to block telemetry servers ([source](https://learn.microsoft.com/en-us/windows/privacy/manage-windows-11-endpoints))
+
+10-12-2023:
+
+- Add NoRestart to pkg removal for online windows, stops nagging questions
+- Clarify usage

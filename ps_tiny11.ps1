@@ -268,10 +268,10 @@ function RemovePkgs([bool]$online) {
                 $pkgs[$k] += 1
                 Write-Host "Removing Windows package: ${pkg}"
                 if ($online) {
-                    Remove-WindowsPackage -PackageName $pkg -Online -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
+                    Remove-WindowsPackage -PackageName $pkg -Online -NoRestart -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
                 }
                 else {
-                    Remove-WindowsPackage -Path $mntdir -PackageName $pkg -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
+                    Remove-WindowsPackage -Path $mntdir -PackageName $pkg -NoRestart -ErrorAction SilentlyContinue -LogLevel 1 | Out-Null
                 }
             }
         }
