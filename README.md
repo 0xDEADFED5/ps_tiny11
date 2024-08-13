@@ -146,23 +146,6 @@ checkappexec.microsoft.com,
 ping-edge.smartscreen.microsoft.com,  
 data-edge.smartscreen.microsoft.com,  
 nav-edge.smartscreen.microsoft.com,  
-edge.microsoft.com,  
-windows.msn.com,  
-iecvlist.microsoft.com,  
-msedge.api.cdp.microsoft.com,  
-manage.devcenter.microsoft.com,  
-config.teams.microsoft.com,  
-teams.live.com,  
-teams.events.data.microsoft.com,  
-statics.teams.cdn.live.net,  
-arc.msn.com,  
-ris.api.iris.microsoft.com,  
-api.msn.com,  
-c.msn.com,  
-ntp.msn.com,  
-srtb.msn.com,  
-fd.api.iris.microsoft.com,  
-staticview.msn.com
 
 #### How to Modify:
 
@@ -172,7 +155,10 @@ Top of [ps_tiny11.ps1](ps_tiny11.ps1) contains apps, packages, files and folders
 
 #### Known issues:
 
-I'm not 100% sure, still testing.  I've tested offline/online on hardware and many times in VM, nothing seems to be broken.  Disabling Windows Platform Binary Table may or may not work.  When using Xbox controller a window will pop up on game start pointing you to Microsoft Store to install Xbox crap.  
+There's a [report ](https://github.com/0xDEADFED5/ps_tiny11/issues/2) of XBox app connectivity issue due to the blocked telemetry servers in the hosts file.
+Not sure which entry it is yet, but I've commented out a lot of the entries, I might've been a little too enthusiastic when I first made the list.
+
+Disabling Windows Platform Binary Table may or may not work.  When using Xbox controller a window will pop up on game start pointing you to Microsoft Store to install Xbox crap.  
 
 I have code in there that should convert install.esd to install.wim, but it doesn't seem to do shit, so it's commented out.  Don't use ESD compression if you want to use this script.  
 
@@ -200,3 +186,4 @@ I have code in there that should convert install.esd to install.wim, but it does
 13-Aug-2024:
 
 - Don't mess with LA57 anymore
+- Remove hosts file entries so less services are blocked

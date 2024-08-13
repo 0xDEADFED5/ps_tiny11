@@ -101,28 +101,28 @@ $hostnames = @(
     "data-edge.smartscreen.microsoft.com",
     "nav-edge.smartscreen.microsoft.com",
     # Microsoft Edge
-    "edge.microsoft.com",
-    "windows.msn.com",
-    "iecvlist.microsoft.com",
-    "msedge.api.cdp.microsoft.com",
+    #"edge.microsoft.com",
+    #"windows.msn.com",
+    #"iecvlist.microsoft.com",
+    #"msedge.api.cdp.microsoft.com",
     # Microsoft Store analytics
-    "manage.devcenter.microsoft.com",
+    #"manage.devcenter.microsoft.com",
     # Microsoft Teams
-    "config.teams.microsoft.com",
-    "teams.live.com",
-    "teams.events.data.microsoft.com",
-    "statics.teams.cdn.live.net",
+    #"config.teams.microsoft.com",
+    #"teams.live.com",
+    #"teams.events.data.microsoft.com",
+    #"statics.teams.cdn.live.net",
     # Windows Spotlight
-    "arc.msn.com",
-    "ris.api.iris.microsoft.com",
-    "api.msn.com",
+    #"arc.msn.com",
+    #"ris.api.iris.microsoft.com",
+    #"api.msn.com",
     #"assets.msn.com",
-    "c.msn.com",
-    "ntp.msn.com",
-    "srtb.msn.com",
+    #"c.msn.com",
+    #"ntp.msn.com",
+    #"srtb.msn.com",
     #"www.msn.com",
-    "fd.api.iris.microsoft.com",
-    "staticview.msn.com"
+    #"fd.api.iris.microsoft.com",
+    #"staticview.msn.com"
     )
 $yes = (cmd /c "choice <nul 2>nul")[1]
 $tempdir = 'C:\ps_tiny11'
