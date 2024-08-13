@@ -155,7 +155,7 @@ Top of [ps_tiny11.ps1](ps_tiny11.ps1) contains apps, packages, files and folders
 
 #### Known issues:
 
-There's a [report ](https://github.com/0xDEADFED5/ps_tiny11/issues/2) of XBox app connectivity issue due to the blocked telemetry servers in the hosts file.
+There's a [report](https://github.com/0xDEADFED5/ps_tiny11/issues/2) of XBox app connectivity issue due to the blocked telemetry servers in the hosts file.
 Not sure which entry it is yet, but I've commented out a lot of the entries, I might've been a little too enthusiastic when I first made the list.
 
 Disabling Windows Platform Binary Table may or may not work.  When using Xbox controller a window will pop up on game start pointing you to Microsoft Store to install Xbox crap.  
