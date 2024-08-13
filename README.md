@@ -30,7 +30,7 @@ Tested on Windows 11 version 22H2 (22621.2428) amd64 and (22621.1702).  Other bu
 
 1. Download Windows 11 from [UUPDump](https://uupdump.net/) (don't use ESD compression) or from the Microsoft website (<https://www.microsoft.com/software-download/windows11>).
 2. Mount the downloaded ISO image using Windows Explorer (double-click it)
-3. Right-click ps_tiny11.ps1 and select 'Run with PowerShell' if you have Developer Mode enabled, otherwise open a terminal and run .\ps_tiny11.ps1.  It will ask for Admin privileges.
+3. Right-click ps_tiny11.ps1 and select 'Run with PowerShell' if you have Developer Mode enabled, otherwise open a terminal and run `.\ps_tiny11.ps1`, it will ask for Admin privileges.
 4. Select the drive letter where the image is mounted
 5. If installation image contains more than one version of Windows 11, select which one to process
 6. Chill for a bit, yah?
@@ -38,7 +38,7 @@ Tested on Windows 11 version 22H2 (22621.2428) amd64 and (22621.1702).  Other bu
 
 #### Instructions to modify currently running Windows 11:
 
-1. Right-click ps_tiny11.ps1 and select 'Run with PowerShell' if you have Developer Mode enabled, otherwise open a terminal and run .\ps_tiny11.ps1.  It will ask for Admin privileges.  Explorer will be restarted to apply changes.
+1. Right-click ps_tiny11.ps1 and select 'Run with PowerShell' if you have Developer Mode enabled, otherwise open a terminal and run `.\ps_tiny11.ps1`, it will ask for Admin privileges.  Explorer will be restarted to apply changes.
 
 #### What is removed:
 
