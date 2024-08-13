@@ -7,7 +7,7 @@ if (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]
 # substring match on PackageName, case-insensitive
 $pkgs = @{ 
     'InternetExplorer'              = 0; 
-    'Kernel-LA57'                   = 0;
+    #'Kernel-LA57'                   = 0;
     'LanguageFeatures-Handwriting'  = 0;
     'LanguageFeatures-OCR'          = 0;
     'LanguageFeatures-Speech'       = 0;

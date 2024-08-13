@@ -30,7 +30,7 @@ Tested on Windows 11 version 22H2 (22621.2428) amd64 and (22621.1702).  Other bu
 
 1. Download Windows 11 from [UUPDump](https://uupdump.net/) (don't use ESD compression) or from the Microsoft website (<https://www.microsoft.com/software-download/windows11>).
 2. Mount the downloaded ISO image using Windows Explorer (double-click it)
-3. Right-click ps_tiny11.ps1 and select 'Run with PowerShell'.  It will ask for Admin privileges.
+3. Right-click ps_tiny11.ps1 and select 'Run with PowerShell' if you have Developer Mode enabled, otherwise open a terminal and run .\ps_tiny11.ps1.  It will ask for Admin privileges.
 4. Select the drive letter where the image is mounted
 5. If installation image contains more than one version of Windows 11, select which one to process
 6. Chill for a bit, yah?
@@ -38,7 +38,7 @@ Tested on Windows 11 version 22H2 (22621.2428) amd64 and (22621.1702).  Other bu
 
 #### Instructions to modify currently running Windows 11:
 
-1. Right-click ps_tiny11.ps1 and select 'Run with PowerShell'.  It will ask for Admin privileges.  Explorer will be restarted to apply changes.
+1. Right-click ps_tiny11.ps1 and select 'Run with PowerShell' if you have Developer Mode enabled, otherwise open a terminal and run .\ps_tiny11.ps1.  It will ask for Admin privileges.  Explorer will be restarted to apply changes.
 
 #### What is removed:
 
@@ -61,8 +61,7 @@ Sound Recorder,
 Your Phone,  
 Media Player,  
 QuickAssist,  
-Internet Explorer,  
-LA57 support,  
+Internet Explorer,    
 OCR,  
 Speech support,  
 TTS,  
@@ -179,21 +178,25 @@ I have code in there that should convert install.esd to install.wim, but it does
 
 #### Changelog:
 
-31-10-2023:  
+31-Oct-2023:  
 
 - Updated registry tweaks and file/folder removal to be like this project, and added some tweaks from there: (<https://github.com/ianis58/tiny11builder/tree/main/tools>)  
 - Removed the RunAsTI snippet and the failed attempt at the Teams registry tweak.   
 - Replaced autoattend.xml with the one from (<https://github.com/bravomail/tinier11/blob/main/autounattend.xml>), thanks bravomail!
 - WebExperience is no longer removed
 
-07-11-2023:
+07-Nov-2023:
 
 - Reorganize code a bit, can now modify currently running Windows
 - Group Policy tweaks added ([source](https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.CloudContent::DisableWindowsConsumerFeatures))
 - autounattend.xml now modifies registry to enable old context menu (do i need to add other tweaks there?)
 - Modify hosts file to block telemetry servers ([source](https://learn.microsoft.com/en-us/windows/privacy/manage-windows-11-endpoints))
 
-10-12-2023:
+10-Dec-2023:
 
 - Add NoRestart to pkg removal for online windows, stops nagging questions
 - Clarify usage
+
+13-Aug-2024:
+
+- Don't mess with LA57 anymore
