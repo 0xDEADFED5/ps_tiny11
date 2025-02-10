@@ -1,3 +1,7 @@
+# Update Feb 9, 2025
+
+I'm going to archive this repo.  I've given up on trying to slightly fix or redeem Windows.  I originally made this just to try to show how to do a slightly spruced up version of tiny11 in PowerShell (tiny11 at that time was still using a batch script).  Meanwhile tiny11 has improved and kept up with things better.  Thanks for stopping by!
+
 # ps_tiny11
 
 A PowerShell version of [tiny11builder](https://github.com/ntdevlabs/tiny11builder).
